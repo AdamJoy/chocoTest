@@ -13,17 +13,62 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    // Keystore設定
+    signingConfigs {
+        debug {
+            storeFile file(rootProject.file("debug.keystore"))
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
     dataBinding {
         enabled true
     }
+
+    // 不同版本切換設定
+    productFlavors {
+
+        flavorDimensions "dimension"
+
+        def formal_url = "\"https://static.linetv.tw/\""   // 正式區domain
+        def test_url   = "\"https://static.linetv.tw/\""   // 測試區domain
+
+        /* Formal版 */
+        formal {
+            buildConfigField "String", "API_SERVER_URL", formal_url
+            buildConfigField "boolean", "DEBUG_MODE", "false"
+            resValue "string", "app_name", "@string/app_formal_name"
+        }
+
+        /* Test版 */
+        internalTest {
+            buildConfigField "String", "API_SERVER_URL", test_url
+            buildConfigField "boolean", "DEBUG_MODE", "true"
+            resValue "string", "app_name", "@string/app_test_name"
+        }
+    }
+    // Build Variant 顯示過濾設定
+    variantFilter { variant ->
+        if (variant.buildType.name == 'release') {
+            variant.setIgnore(variant.getFlavors().get(0).name != 'formal')
+        }
+        if (variant.buildType.name == 'debug') {
+            variant.setIgnore(variant.getFlavors().get(0).name == 'formal')
+        }
+    }
+
 }
 
 
