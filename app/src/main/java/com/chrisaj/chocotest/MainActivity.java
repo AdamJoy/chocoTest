@@ -2,6 +2,7 @@ package com.chrisaj.chocotest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.chrisaj.chocotest.adapter.DramaListAdapter;
 import com.chrisaj.chocotest.databinding.ActivityMainBinding;
 import com.chrisaj.chocotest.https.apiresponse.DramaListResponse;
 import com.chrisaj.chocotest.model.DramaModel;
+import com.chrisaj.chocotest.tool.DramaSP;
 import com.chrisaj.chocotest.tool.Key;
 import com.chrisaj.chocotest.viewmodel.MainActivityViewModel;
 
@@ -56,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
         final Observer<DramaListResponse> observer = new Observer<DramaListResponse>() {
             @Override
             public void onChanged(DramaListResponse dramaModels) {
-                Log.d("TAG","MainAcrtivity__onChange");
+                Log.d("TAG","MainActivity__onChange");
                 //透過Binding將值設定給Recyclerview
                 mDramaListAdapter.setDramaList(dramaModels.getDramaList());
+                // 回覆上次搜尋狀態
+                restoreLastTimeSearchStatus(DramaSP.getInstances().getString(Key.KEY_SP_SEARCH_DRAMA_RESULT, ""));
             }
         };
         mViewModel.getDramaListData().observe(this, observer);   // 開始呼叫API
@@ -81,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if(editable != null ) {
                     mDramaListAdapter.searchDramaByKeyWord(editable.toString());
+                    // 搜尋結果暫存至 SP
+
+                    DramaSP.getInstances().setString(Key.KEY_SP_SEARCH_DRAMA_RESULT, editable.toString());
                 }
             }
         });
@@ -97,5 +104,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mDramaListAdapter.setItemClick(itemClick);
+    }
+
+    private void restoreLastTimeSearchStatus(final String searchedRecord) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mActivityMainBinding.etDramaListSearch.setText(searchedRecord);
+            }
+        }, 200);
+
     }
 }

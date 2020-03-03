@@ -112,7 +112,7 @@ public class DramaModel implements Serializable {
     public static void setRatingBarForOneStar(SimpleRatingBar ratingBar, float rating) {
         float original = (rating * 100) / 5 ;
         float result   = original/100;
-        ratingBar.setRating(result);
+        ratingBar.setRating(0);
     }
     // 設定五顆星顯示 RatingBar
     @BindingAdapter({ "setFullRating" })

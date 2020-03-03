@@ -5,6 +5,7 @@ import java.util.Locale;
 
 public class NumberTool {
 
+    // 將數字 增加Comma標示
     public static String changeNumberWithComma(int number) {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
     }
