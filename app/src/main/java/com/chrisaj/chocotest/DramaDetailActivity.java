@@ -20,7 +20,6 @@ public class DramaDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // 取得dataBinding
         mActivityDramaDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_drama_detail);
 

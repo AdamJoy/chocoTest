@@ -36,22 +36,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);   // DataBinding取代setContentview
 
         //取得Binding實體
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
-        Log.d("TAG","設定View給ViewModel = " + viewGroup);
-        mViewModel.setView(viewGroup);
+        mViewModel.setView(viewGroup); // 將view傳給viewModel
 
         mRecyclerView = mActivityMainBinding.rvDramaList;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
-
 
         mDramaListAdapter = new DramaListAdapter(this);
         mRecyclerView.setAdapter(mDramaListAdapter);
@@ -68,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG","MainActivity__onChange");
                 //透過Binding將值設定給Recyclerview
                 mDramaListAdapter.setDramaList(dramaModels.getDramaList());
-                // 回覆上次搜尋狀態
                 restoreLastTimeSearchStatus(DramaSP.getInstances().getString(Key.KEY_SP_SEARCH_DRAMA_RESULT, ""));
             }
         };
@@ -80,26 +76,21 @@ public class MainActivity extends AppCompatActivity {
         mActivityMainBinding.etDramaListSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(editable != null ) {
                     mDramaListAdapter.searchDramaByKeyWord(editable.toString());
                     // 搜尋結果暫存至 SP
-
                     DramaSP.getInstances().setString(Key.KEY_SP_SEARCH_DRAMA_RESULT, editable.toString());
                 }
             }
         });
 
-        // 列表Item click Listener
+        // 列表Item click事件
         DramaListAdapter.ItemClick itemClick = new DramaListAdapter.ItemClick() {
             @Override
             public void onClicked(View view, DramaModel dramaData) {
@@ -113,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         mDramaListAdapter.setItemClick(itemClick);
     }
 
+    // 回覆上次搜尋狀態
     private void restoreLastTimeSearchStatus(final String searchedRecord) {
         new Handler().postDelayed(new Runnable() {
             @Override
