@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chrisaj.chocotest.adapter.DramaListAdapter;
 import com.chrisaj.chocotest.databinding.ActivityMainBinding;
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         //取得Binding實體
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+
+        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
+                .findViewById(android.R.id.content)).getChildAt(0);
+        Log.d("TAG","設定View給ViewModel = " + viewGroup);
+        mViewModel.setView(viewGroup);
 
         mRecyclerView = mActivityMainBinding.rvDramaList;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

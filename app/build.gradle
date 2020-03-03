@@ -104,5 +104,5 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.2.0"
 
     implementation 'com.iarcuschin:simpleratingbar:0.1.5'
-
+    implementation "com.google.android.material:material:1.2.0-alpha05"// SnackBar使用
 }
