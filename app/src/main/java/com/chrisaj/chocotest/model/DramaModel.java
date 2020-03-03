@@ -9,12 +9,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chrisaj.chocotest.R;
+import com.chrisaj.chocotest.tool.NumberTool;
 import com.chrisaj.chocotest.tool.TimeTool;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
+import java.io.Serializable;
+
 import androidx.databinding.BindingAdapter;
 
-public class DramaModel {
+public class DramaModel implements Serializable {
 
     /**
      * drama_id : 3
@@ -90,18 +93,31 @@ public class DramaModel {
                 .placeholder(R.drawable.progress_animation)
                 .into(imageView);
     }
+    @BindingAdapter({ "loadFullImage" })
+    public static void loadFullDramaImage(ImageView imageView, String dramaUrl) {
+        Glide.with(imageView.getContext())
+                .load(dramaUrl)
+                .centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .into(imageView);
+    }
 
     // 調整顯示時間格式
     @BindingAdapter({ "timeFormat" })
     public static void transferTimeFormat(TextView textView, String time) {
         textView.setText(TimeTool.TransformTimeFormat(time));
     }
-    // 調整RatingBar
+    // 設定一顆星 RatingBar
     @BindingAdapter({ "setSize" })
-    public static void setRatingBarSize(SimpleRatingBar ratingBar, float rating) {
-        float original =  (rating * 100) / 5 ;
+    public static void setRatingBarForOneStar(SimpleRatingBar ratingBar, float rating) {
+        float original = (rating * 100) / 5 ;
         float result   = original/100;
-        ratingBar.setRating(0);
+        ratingBar.setRating(result);
+    }
+    // 設定五顆星顯示 RatingBar
+    @BindingAdapter({ "setFullRating" })
+    public static void setRatingBarForFiveStars(SimpleRatingBar ratingBar, float rating) {
+        ratingBar.setRating(rating);
     }
     // 調整RatingBar textView
     @BindingAdapter({ "setRating" })
@@ -109,5 +125,10 @@ public class DramaModel {
         String original = String.valueOf(rating);
 
         textView.setText(String.valueOf(Float.valueOf(original.substring(0,4))));
+    }
+    // 增加comma至數字中
+    @BindingAdapter({ "withComma" })
+    public static void setCommaNumber(TextView textView, int totalViews) {
+        textView.setText(NumberTool.changeNumberWithComma(totalViews));
     }
 }

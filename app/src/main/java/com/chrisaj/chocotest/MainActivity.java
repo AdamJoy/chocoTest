@@ -1,5 +1,6 @@
 package com.chrisaj.chocotest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import com.chrisaj.chocotest.adapter.DramaListAdapter;
 import com.chrisaj.chocotest.databinding.ActivityMainBinding;
 import com.chrisaj.chocotest.https.apiresponse.DramaListResponse;
 import com.chrisaj.chocotest.model.DramaModel;
+import com.chrisaj.chocotest.tool.Key;
 import com.chrisaj.chocotest.viewmodel.MainActivityViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClicked(View view, DramaModel dramaData) {
                    Log.d("TAG","戲劇列表點擊事件 = " + dramaData.getName());
+                   Intent intent = new Intent(MainActivity.this, DramaDetailActivity.class);
+                   intent.putExtra(Key.KEY_BUNDLE_DRAMA_MODEL, dramaData);
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                   startActivity(intent);
             }
         };
         mDramaListAdapter.setItemClick(itemClick);
