@@ -1,19 +1,16 @@
 package com.chrisaj.chocotest;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.util.Log;
 
 import com.chrisaj.chocotest.databinding.ActivityMainBinding;
 import com.chrisaj.chocotest.https.apiresponse.DramaListResponse;
-import com.chrisaj.chocotest.model.DramaModel;
 import com.chrisaj.chocotest.viewmodel.MainActivityViewModel;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
         //取得Binding實體
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);

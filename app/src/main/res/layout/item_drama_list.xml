@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="dramaModel"
+            type="com.chrisaj.chocotest.model.DramaModel" />
+
+        <variable
+            name="itemClick"
+            type="com.chrisaj.chocotest.adapter.DramaListAdapter.ItemClick"/>
+    </data>
+
+     <androidx.cardview.widget.CardView
+         android:layout_width="match_parent"
+         android:layout_height="160dp"
+         android:elevation="3dp"
+         app:cardCornerRadius="3dp">
+
+         <androidx.constraintlayout.widget.ConstraintLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:onClick="@{(view) -> itemClick.onClicked(view, dramaModel)}">
+
+             <!--縮圖-->
+             <ImageView
+                 android:layout_width="0dp"
+                 android:layout_height="0dp"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintLeft_toLeftOf="parent"
+                 app:layout_constraintRight_toRightOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+             <!--戲劇名稱-->
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:text="@{dramaModel.name}"/>
+             <!--上架日期-->
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:layout_editor_absoluteX="192dp"
+                 tools:layout_editor_absoluteY="57dp" />
+             <!--評分-->
+<!--             <RatingBar-->
+<!--                 android:layout_width="wrap_content"-->
+<!--                 android:layout_height="wrap_content"-->
+<!--                 android:numStars="1"-->
+<!--                 android:textAlignment="gravity"/>-->
+<!--             <TextView-->
+<!--                 android:layout_width="wrap_content"-->
+<!--                 android:layout_height="wrap_content"/>-->
+
+         </androidx.constraintlayout.widget.ConstraintLayout>
+     </androidx.cardview.widget.CardView>
+</layout>

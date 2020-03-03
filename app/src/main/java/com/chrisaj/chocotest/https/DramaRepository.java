@@ -3,7 +3,6 @@ package com.chrisaj.chocotest.https;
 import android.util.Log;
 
 import com.chrisaj.chocotest.https.apiresponse.DramaListResponse;
-import com.google.gson.Gson;
 
 import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
@@ -27,7 +26,7 @@ public class DramaRepository {
         call.enqueue(new Callback<DramaListResponse>() {
             @Override
             public void onResponse(Call<DramaListResponse> call, Response<DramaListResponse> response) {
-                Log.d("TAG","Api__細綠列表結果" + new Gson().toJson(response));
+                //Log.d("TAG","Api__細綠列表結果" + new Gson().toJson(response));
                 DramaListResponse dramaListApiResponse = response.body();
                 if (dramaListApiResponse != null) {
                     Log.d("TAG","戲劇列表API___長度 = " + dramaListApiResponse.getDramaList().size());
