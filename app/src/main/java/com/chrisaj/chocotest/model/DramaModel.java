@@ -1,5 +1,15 @@
 package com.chrisaj.chocotest.model;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.chrisaj.chocotest.R;
+import com.chrisaj.chocotest.tool.TimeTool;
+
+import androidx.databinding.BindingAdapter;
+
 public class DramaModel {
 
     /**
@@ -64,5 +74,22 @@ public class DramaModel {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    // BindingAdapter for item image loading
+    @BindingAdapter({"itemImage"})
+    public static void loadItemImage(ImageView imageView, String imageUrl) {
+        Glide.with(imageView.getContext())
+                .load(imageUrl)
+                .override(720,420)
+                .centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .into(imageView);
+    }
+
+    // 調整顯示時間格式
+    @BindingAdapter({ "timeFormat" })
+    public static void transferTimeFormat(TextView textView, String time) {
+        textView.setText(TimeTool.TransformTimeFormat(time));
     }
 }

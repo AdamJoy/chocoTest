@@ -1,5 +1,6 @@
 package com.chrisaj.chocotest.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,11 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
 
     private ArrayList<DramaModel> mDramaList;
     private ItemClick mItemClick;
+    private Context mContext;
 
-    public DramaListAdapter(ItemClick itemClick) {
-        this.mItemClick = itemClick;   // 外面傳itemClick事件進來
+    public DramaListAdapter(Context context) {
+        this.mContext = context;
+        //this.mItemClick = itemClick;   // 外面傳itemClick事件進來
     }
 
     @NonNull
@@ -99,6 +102,11 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
             dramaListItemBinding.setItemClick(itemClick);
         }
 
+    }
+
+
+    public void setItemClick(ItemClick itemclick) {
+        this.mItemClick = itemclick;
     }
 
     public interface ItemClick {

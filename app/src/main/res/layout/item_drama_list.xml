@@ -19,7 +19,7 @@
 
      <androidx.cardview.widget.CardView
          android:layout_width="match_parent"
-         android:layout_height="160dp"
+         android:layout_height="260dp"
          android:elevation="3dp"
          app:cardCornerRadius="3dp">
 
@@ -30,34 +30,49 @@
 
              <!--縮圖-->
              <ImageView
+                 android:id="@+id/img_drama_item_picture"
                  android:layout_width="0dp"
-                 android:layout_height="0dp"
+                 android:layout_height="180dp"
+                 bind:itemImage="@{dramaModel.thumb}"
+                 android:scaleType="centerCrop"
                  app:layout_constraintTop_toTopOf="parent"
                  app:layout_constraintLeft_toLeftOf="parent"
-                 app:layout_constraintRight_toRightOf="parent"
-                 app:layout_constraintBottom_toBottomOf="parent"/>
+                 app:layout_constraintRight_toRightOf="parent"/>
 
              <!--戲劇名稱-->
              <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:text="@{dramaModel.name}"/>
-             <!--上架日期-->
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@{dramaModel.name}"
+                 android:textSize="20dp"
+                 android:layout_marginLeft="5dp"
+                 android:layout_marginBottom="5dp"
+                 android:textColor="@android:color/black"
+                 app:layout_constraintLeft_toLeftOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+             <!--上架日期-->
              <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 tools:layout_editor_absoluteX="192dp"
-                 tools:layout_editor_absoluteY="57dp" />
+                 android:id="@+id/tv_drama_list_update_date"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@{dramaModel.created_at}"
+                 android:textSize="14dp"
+                 bind:timeFormat="@{dramaModel.created_at}"
+                 android:layout_marginRight="5dp"
+                 android:layout_marginBottom="5dp"
+                 app:layout_constraintRight_toRightOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"/>
              <!--評分-->
-<!--             <RatingBar-->
-<!--                 android:layout_width="wrap_content"-->
-<!--                 android:layout_height="wrap_content"-->
-<!--                 android:numStars="1"-->
-<!--                 android:textAlignment="gravity"/>-->
-<!--             <TextView-->
-<!--                 android:layout_width="wrap_content"-->
-<!--                 android:layout_height="wrap_content"/>-->
+             <RatingBar
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:numStars="1"
+                 android:textAlignment="center"
+                 android:layout_marginRight="5dp"
+                 app:layout_constraintBottom_toTopOf="@+id/tv_drama_list_update_date"
+                 app:layout_constraintRight_toRightOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/img_drama_item_picture"/>
 
          </androidx.constraintlayout.widget.ConstraintLayout>
      </androidx.cardview.widget.CardView>

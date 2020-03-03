@@ -3,4 +3,7 @@
 
     <string name="app_formal_name">巧克戲劇版官方APP</string>
     <string name="app_test_name">巧克戲劇版測試APP</string>
+
+    <!--MainActivity  -->
+    <string name="hint_search_drama">搜尋劇名</string>
 </resources>

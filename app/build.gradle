@@ -27,6 +27,7 @@ android {
             signingConfig signingConfigs.debug
         }
         debug {
+            applicationIdSuffix ".debug"   // 一次可以安裝測試版、正式版APK
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
