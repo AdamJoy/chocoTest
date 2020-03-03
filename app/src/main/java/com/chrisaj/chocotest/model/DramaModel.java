@@ -1,5 +1,8 @@
 package com.chrisaj.chocotest.model;
 
+import android.animation.ValueAnimator;
+import android.util.Log;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -7,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chrisaj.chocotest.R;
 import com.chrisaj.chocotest.tool.TimeTool;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import androidx.databinding.BindingAdapter;
 
@@ -26,7 +30,7 @@ public class DramaModel {
     private int total_views;
     private String created_at;
     private String thumb;
-    private double rating;
+    private float rating;
 
     public int getDrama_id() {
         return drama_id;
@@ -68,11 +72,11 @@ public class DramaModel {
         this.thumb = thumb;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -91,5 +95,19 @@ public class DramaModel {
     @BindingAdapter({ "timeFormat" })
     public static void transferTimeFormat(TextView textView, String time) {
         textView.setText(TimeTool.TransformTimeFormat(time));
+    }
+    // 調整RatingBar
+    @BindingAdapter({ "setSize" })
+    public static void setRatingBarSize(SimpleRatingBar ratingBar, float rating) {
+        float original =  (rating * 100) / 5 ;
+        float result   = original/100;
+        ratingBar.setRating(0);
+    }
+    // 調整RatingBar textView
+    @BindingAdapter({ "setRating" })
+    public static void setRatingCount(TextView textView, float rating) {
+        String original = String.valueOf(rating);
+
+        textView.setText(String.valueOf(Float.valueOf(original.substring(0,4))));
     }
 }

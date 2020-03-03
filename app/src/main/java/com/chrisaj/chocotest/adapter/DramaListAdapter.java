@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 
 import com.chrisaj.chocotest.R;
 import com.chrisaj.chocotest.databinding.ItemDramaListBinding;
 import com.chrisaj.chocotest.model.DramaModel;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.util.ArrayList;
 
@@ -19,12 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.DramaViewHolder> {
 
     private ArrayList<DramaModel> mDramaList;
+    private ArrayList<DramaModel> mDramaSearchResultList;
     private ItemClick mItemClick;
     private Context mContext;
 
     public DramaListAdapter(Context context) {
         this.mContext = context;
         //this.mItemClick = itemClick;   // 外面傳itemClick事件進來
+        this.mDramaSearchResultList = new ArrayList<>();
     }
 
     @NonNull
@@ -34,29 +38,33 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
         ItemDramaListBinding dramaListItemBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()),    // ItemDramaListBinding會自動生成
                         R.layout.item_drama_list, viewGroup, false);       // 根據Layout名子  item_drama_list 自動產生 ItemUserListBinding
-        return new DramaViewHolder(dramaListItemBinding);
+        View view  = LayoutInflater.from(mContext).inflate(R.layout.item_drama_list, viewGroup, false);
+        return new DramaViewHolder(dramaListItemBinding, view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DramaViewHolder holder, int position) {
-        DramaModel dramaData = mDramaList.get(position);
-
-        //if(currentUser.getType().equals("User")) {
-        //    currentUser.setOrganize(false);
-        //} else {
-        //    currentUser.setOrganize(true);
-        //}
-
+        DramaModel dramaData;
+        if(mDramaSearchResultList.size() > 0) {
+            dramaData = mDramaSearchResultList.get(position);
+        } else {
+            dramaData = mDramaList.get(position);
+        }
         holder.dramaListItemBinding.setItemClick(mItemClick);  // 設定ItemClick Listener給xml
         holder.dramaListItemBinding.setDramaModel(dramaData);  // 設定dramaModel給xml
     }
 
     @Override
     public int getItemCount() {
-        if (mDramaList != null) {
-            return mDramaList.size();
+
+        if(mDramaSearchResultList != null && mDramaSearchResultList.size() > 0 ) {
+            return mDramaSearchResultList.size();
         } else {
-            return 0;
+            if (mDramaList != null) {
+                return mDramaList.size();
+            } else {
+                return 0;
+            }
         }
     }
     // 新增多筆Item
@@ -64,7 +72,10 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
         if(mDramaList == null) {
             mDramaList = new ArrayList<>();
         }
-        this.mDramaList = dramaList;
+        if(mDramaSearchResultList == null) {
+            mDramaSearchResultList = new ArrayList<>();
+        }
+        this.mDramaList.addAll(dramaList);
         notifyDataSetChanged();
     }
 
@@ -89,14 +100,35 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
         return 0;
     }
 
+    // Drama 搜尋處理
+    public void searchDramaByKeyWord(String keyword) {
+        if(mDramaSearchResultList == null) {
+            mDramaSearchResultList = new ArrayList<>();
+        }
+
+        mDramaSearchResultList.clear();
+        if(keyword.length() == 0) {
+            notifyDataSetChanged();
+            return;
+        }
+        for(int i = 0 ; i < mDramaList.size(); i++) {
+            if(mDramaList.get(i).getName().contains(keyword)) {
+                mDramaSearchResultList.add(mDramaList.get(i));
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     // ViewHolder
     class DramaViewHolder extends RecyclerView.ViewHolder {
 
         private  ItemDramaListBinding dramaListItemBinding;
+        private SimpleRatingBar mSimpleRatingBar;
 
-        public DramaViewHolder(@NonNull ItemDramaListBinding dramaListItemBinding) {
+        public DramaViewHolder(@NonNull ItemDramaListBinding dramaListItemBinding, View itemView) {
             super(dramaListItemBinding.getRoot());
             this.dramaListItemBinding = dramaListItemBinding;
+            this.mSimpleRatingBar = itemView.findViewById(R.id.simple_rating_bar);
         }
         public void bind(ItemClick itemClick) {
             dramaListItemBinding.setItemClick(itemClick);
@@ -108,7 +140,6 @@ public class DramaListAdapter extends RecyclerView.Adapter<DramaListAdapter.Dram
     public void setItemClick(ItemClick itemclick) {
         this.mItemClick = itemclick;
     }
-
     public interface ItemClick {
         void onClicked(View view, DramaModel dramaData);
     }

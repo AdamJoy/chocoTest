@@ -7,6 +7,7 @@ import java.util.Locale;
 
 public class TimeTool {
 
+    // 時間格式轉換 2017-10-21T12:34:41.000Z"" -> "yyyy-MM-dd HH:mm:ss"
     public static String TransformTimeFormat(String originalTime) {
 
         SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

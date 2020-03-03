@@ -1,6 +1,8 @@
 package com.chrisaj.chocotest;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
@@ -62,15 +64,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void setListener() {
         // EditText搜尋事件
+        mActivityMainBinding.etDramaListSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable != null ) {
+                    mDramaListAdapter.searchDramaByKeyWord(editable.toString());
+                }
+            }
+        });
 
         // 列表Item click Listener
-        DramaListAdapter.ItemClick itemclick = new DramaListAdapter.ItemClick() {
+        DramaListAdapter.ItemClick itemClick = new DramaListAdapter.ItemClick() {
             @Override
             public void onClicked(View view, DramaModel dramaData) {
                    Log.d("TAG","戲劇列表點擊事件 = " + dramaData.getName());
             }
         };
-        mDramaListAdapter.setItemClick(itemclick);
+        mDramaListAdapter.setItemClick(itemClick);
     }
 }

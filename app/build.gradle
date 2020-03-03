@@ -72,6 +72,9 @@ android {
 
 }
 
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -99,5 +102,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'   // 缺少這個ViewModelProvider會import v4 pack包裡面的，必須是androidx
     implementation 'androidx.cardview:cardview:1.0.0'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.2.0"
+
+    implementation 'com.iarcuschin:simpleratingbar:0.1.5'
 
 }
